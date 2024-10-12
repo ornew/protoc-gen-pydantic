@@ -138,9 +138,10 @@ class {{ .Name }}(_BaseModel):
     {{ range .LeadingComments }}
     # {{ . }}
     {{- end }}
-    {{ .Name }}: "{{ .Type }}" = _Field({{ if .Optional }}None{{ else }}...{{ end }}{{ if ne (len .LeadingComments) 0 }}, description="""{{- range .LeadingComments -}}
+    {{ .Name }}: "{{ .Type }}" = _Field({{ if or .Optional (ne .OneOf nil) }}None{{ else }}...{{ end }}{{ if or (ne (len .LeadingComments) 0) (ne .OneOf nil) }}, description="""{{- range .LeadingComments -}}
 {{ . }}
-{{ end }}"""{{ end }})
+{{ end }}{{ if ne .OneOf nil }}
+Only one of the fields can be specified with: {{ .OneOf.FieldNames }} (oneof {{ .OneOf.Name }}){{ end }}"""{{ end }})
     {{- range .TrailingComments }}
     # {{ . }}
     {{- end }}
@@ -173,8 +174,14 @@ type Field struct {
 	Name             string
 	Type             string
 	Optional         bool
+	OneOf            *OneOf
 	LeadingComments  []string
 	TrailingComments []string
+}
+
+type OneOf struct {
+	Name       string
+	FieldNames []string
 }
 
 type Message struct {
@@ -325,10 +332,22 @@ func (e *generator) processMessage(
 			return fmt.Errorf("failed to resolve type: %w", err)
 		}
 		fieldpath := append(path, 2, int32(i))
+		var oneOf *OneOf
+		if oo := field.ContainingOneof(); !field.HasOptionalKeyword() && oo != nil {
+			var fieldNames []string
+			for _, f := range iter(oo.Fields()) {
+				fieldNames = append(fieldNames, string(f.Name()))
+			}
+			oneOf = &OneOf{
+				Name:       string(oo.Name()),
+				FieldNames: fieldNames,
+			}
+		}
 		f := Field{
 			Name:     field.JSONName(),
 			Type:     typ,
 			Optional: field.HasOptionalKeyword(),
+			OneOf:    oneOf,
 			// Description: resolveFieldDescription(field),
 		}
 		f.LeadingComments, f.TrailingComments = extractComments(sourceCodeInfo, fieldpath)
@@ -431,7 +450,7 @@ func (e *generator) resolveType(referer string, field protoreflect.FieldDescript
 		return fmt.Sprintf("list[%s]", typ), nil
 	}
 
-	if field.HasOptionalKeyword() {
+	if field.HasOptionalKeyword() || field.ContainingOneof() != nil {
 		return fmt.Sprintf("_Optional[%s]", typ), nil
 	}
 

@@ -113,6 +113,11 @@ message Foo {
   map<string, NestedMessage> nested_message_map_value = 104;
   map<string, google.protobuf.Timestamp> wkt_timestamp_map_value = 105;
 
+  oneof union {
+    int32 a = 106;
+    string b = 107;
+  }
+
   // Message detatched leading comment.
   // Message detatched leading comment.
 

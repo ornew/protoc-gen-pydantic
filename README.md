@@ -7,7 +7,7 @@
 - Supports all standard `proto3` field types.
 - Handles nested messages and enums.
 - Generates Pydantic models with type annotations and field descriptions.
-- Supports `optional`, `repeated`, and `map` fields.
+- Supports `oneof`, `optional`, `repeated`, and `map` fields.
 - Retains comments from `.proto` files as docstrings in the generated models.
 
 ## Installation

@@ -298,6 +298,12 @@ map<double, string> double_map_key = 77;
     nestedMessageMapValue: "dict[str, Foo_NestedMessage]" = _Field(...)
     
     wktTimestampMapValue: "dict[str, google.protobuf.timestamp_pb2.Timestamp]" = _Field(...)
+    
+    a: "_Optional[int]" = _Field(None, description="""
+Only one of the fields can be specified with: [a b] (oneof union)""")
+    
+    b: "_Optional[str]" = _Field(None, description="""
+Only one of the fields can be specified with: [a b] (oneof union)""")
 
 class Message(_BaseModel):
     """
