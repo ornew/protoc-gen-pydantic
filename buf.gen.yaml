@@ -1,0 +1,13 @@
+version: v2
+managed:
+  enabled: true
+plugins:
+  - local:
+      - go
+      - run
+      - .
+    opt:
+      - paths=source_relative
+    out: test/gen
+inputs:
+  - directory: test/api

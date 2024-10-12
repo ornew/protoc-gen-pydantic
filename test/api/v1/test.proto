@@ -1,0 +1,240 @@
+// Package: test.api.v1
+syntax = "proto3";
+
+package test.api.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/ornew/protoc-gen-pydantic/test/api";
+
+message Foo {
+  int32 int32 = 2;
+  int64 int64 = 3;
+  uint32 uint32 = 4;
+  uint64 uint64 = 5;
+  fixed32 fixed32 = 6;
+  fixed64 fixed64 = 7;
+  sint32 sint32 = 8;
+  sint64 sint64 = 9;
+  sfixed32 sfixed32 = 10;
+  sfixed64 sfixed64 = 11;
+  bool bool = 12;
+  float float = 13;
+  double double = 14;
+  string string = 15;
+  bytes bytes = 16;
+  Enum enum = 17;
+  NestedEnum nested_enum = 18;
+  Message message = 19;
+  NestedMessage nested_message = 20;
+  google.protobuf.Timestamp wkt_timestamp = 21;
+
+  optional int32 int32_optional = 23;
+  optional int64 int64_optional = 24;
+  optional uint32 uint32_optional = 25;
+  optional uint64 uint64_optional = 26;
+  optional fixed32 fixed32_optional = 27;
+  optional fixed64 fixed64_optional = 28;
+  optional sint32 sint32_optional = 29;
+  optional sint64 sint64_optional = 30;
+  optional sfixed32 sfixed32_optional = 31;
+  optional sfixed64 sfixed64_optional = 32;
+  optional bool bool_optional = 33;
+  optional float float_optional = 34;
+  optional double double_optional = 35;
+  optional string string_optional = 36;
+  optional bytes bytes_optional = 37;
+  optional Enum enum_optional = 38;
+  optional NestedEnum nested_enum_optional = 39;
+  optional Message message_optional = 40;
+  optional NestedMessage nested_message_optional = 41;
+  optional google.protobuf.Timestamp wkt_timestamp_optional = 42;
+
+  repeated int32 int32_repeated = 44;
+  repeated int64 int64_repeated = 45;
+  repeated uint32 uint32_repeated = 46;
+  repeated uint64 uint64_repeated = 47;
+  repeated fixed32 fixed32_repeated = 48;
+  repeated fixed64 fixed64_repeated = 49;
+  repeated sint32 sint32_repeated = 50;
+  repeated sint64 sint64_repeated = 51;
+  repeated sfixed32 sfixed32_repeated = 52;
+  repeated sfixed64 sfixed64_repeated = 53;
+  repeated bool bool_repeated = 54;
+  repeated float float_repeated = 55;
+  repeated double double_repeated = 56;
+  repeated string string_repeated = 57;
+  repeated bytes bytes_repeated = 58;
+  repeated Enum enum_repeated = 59;
+  repeated NestedEnum nested_enum_repeated = 60;
+  repeated Message message_repeated = 61;
+  repeated NestedMessage nested_message_repeated = 62;
+  repeated google.protobuf.Timestamp wkt_timestamp_repeated = 63;
+
+  map<int32, string> int32_map_key = 65;
+  map<int64, string> int64_map_key = 66;
+  map<uint32, string> uint32_map_key = 67;
+  map<uint64, string> uint64_map_key = 68;
+  map<fixed32, string> fixed32_map_key = 69;
+  map<fixed64, string> fixed64_map_key = 70;
+  map<sint32, string> sint32_map_key = 71;
+  map<sint64, string> sint64_map_key = 72;
+  map<sfixed32, string> sfixed32_map_key = 73;
+  map<sfixed64, string> sfixed64_map_key = 74;
+  map<bool, string> bool_map_key = 75;
+  // map<float, string> float_map_key = 76;
+  // map<double, string> double_map_key = 77;
+  map<string, string> string_map_key = 78;
+  // map<bytes, string> bytes_map_key = 79;
+  // map<Enum, string> enum_map_key = 80;
+  // map<NestedEnum, string> nested_enum_map_key = 81;
+  // map<Message, string> message_map_key = 82;
+  // map<NestedMessage, string> nested_message_map_key = 83;
+  // map<google.protobuf.Timestamp, string> wkt_timestamp_map_key = 84;
+
+  map<string, int32> int32_map_value = 86;
+  map<string, int64> int64_map_value = 87;
+  map<string, uint32> uint32_map_value = 88;
+  map<string, uint64> uint64_map_value = 89;
+  map<string, fixed32> fixed32_map_value = 90;
+  map<string, fixed64> fixed64_map_value = 91;
+  map<string, sint32> sint32_map_value = 92;
+  map<string, sint64> sint64_map_value = 93;
+  map<string, sfixed32> sfixed32_map_value = 94;
+  map<string, sfixed64> sfixed64_map_value = 95;
+  map<string, bool> bool_map_value = 96;
+  map<string, float> float_map_value = 97;
+  map<string, double> double_map_value = 98;
+  map<string, string> string_map_value = 99;
+  map<string, bytes> bytes_map_value = 100;
+  map<string, Enum> enum_map_value = 101;
+  map<string, NestedEnum> nested_enum_map_value = 102;
+  map<string, Message> message_map_value = 103;
+  map<string, NestedMessage> nested_message_map_value = 104;
+  map<string, google.protobuf.Timestamp> wkt_timestamp_map_value = 105;
+
+  // Message detatched leading comment.
+  // Message detatched leading comment.
+
+  // Message leading comment.
+  // Message leading comment.
+  message NestedMessage {
+    // Message trailing comment.
+    // Message trailing comment.
+
+    // Field detatched leading comment.
+    // Field detatched leading comment.
+
+    // Field leading comment.
+    // Field leading comment.
+    string /* Field inline comment 0 */ first_name /* Field inline comment 1 */ = /* Field inline comment 2 */ 1 /* Field inline comment 3 */ [ /* Field option inline comment 0. */ deprecated = true /* Field option inline comment 1. */ ]; // Field right comment.
+    // Field trailing comment.
+    // Field trailing comment.
+
+    // Field detatched leading comment.
+    // Field detatched leading comment.
+
+    // Field leading comment.
+    // Field leading comment.
+    string last_name /* Field inliner comment 1 */ = 2; // Field right comment.
+    // Field trailing comment.
+    // Field trailing comment.
+  }
+
+  // Enum detatched leading comment.
+  // Enum detatched leading comment.
+
+  // Enum leading comment.
+  // Enum leading comment.
+  enum NestedEnum {
+    // Enum trailing comment.
+    // Enum trailing comment.
+
+    // Enum value detatched leading comment 0.
+
+    // Enum value leading comment 0.
+    NESTED_ENUM_UNSPECIFIED = 0; // Enum value right comment 0.
+    // Enum value trailing comment 0.
+
+    // Enum value detatched leading comment 1.
+
+    // Enum value leading comment 1.
+    NESTED_ENUM_ACTIVE = 1; // Enum value right comment 1.
+    // Enum value trailing comment 1.
+
+    // Enum value detatched leading comment 2.
+
+    // Enum value leading comment 2.
+    NESTED_ENUM_INACTIVE = 2; // Enum value right comment 2.
+    // Enum value trailing comment 2.
+  }
+}
+
+// Message detatched detatched leading comment.
+// Message detatched detatched leading comment.
+
+// Message detatched leading comment.
+// Message detatched leading comment.
+
+// Message leading comment.
+// Message leading comment.
+message Message {
+  // Message trailing comment.
+  // Message trailing comment.
+
+  // Field detatched leading comment.
+  // Field detatched leading comment.
+
+  // Field leading comment.
+  // Field leading comment.
+  string /* Field inline comment 0 */ first_name /* Field inline comment 1 */ = /* Field inline comment 2 */ 1 /* Field inline comment 3 */ [ /* Field option inline comment 0. */ deprecated = true /* Field option inline comment 1. */ ]; // Field right comment.
+  // Field trailing comment.
+  // Field trailing comment.
+
+  // Field detatched leading comment.
+  // Field detatched leading comment.
+
+  // Field leading comment.
+  // Field leading comment.
+  string last_name /* Field inliner comment 1 */ = 2; // Field right comment.
+  // Field trailing comment.
+  // Field trailing comment.
+}
+
+// Enum detatched leading comment.
+// Enum detatched leading comment.
+
+// Enum leading comment.
+// Enum leading comment.
+enum Enum {
+  // Enum trailing comment.
+  // Enum trailing comment.
+
+  // Enum value leading comment 0.
+  // Enum value leading comment 0.
+  ENUM_UNSPECIFIED = 0; // Enum value right comment 0.
+  // Enum value trailing comment 0.
+  // Enum value trailing comment 0.
+
+  // Enum value detatched leading comment 1.
+  // Enum value detatched leading comment 1.
+
+  // Enum value leading comment 1.
+  // Enum value leading comment 1.
+  ENUM_ACTIVE = 1;
+  // Enum value trailing comment 1.
+  // Enum value trailing comment 1.
+
+  // Enum value detatched leading comment 2.
+  // Enum value detatched leading comment 2.
+
+  // Enum value leading comment 2.
+  // Enum value leading comment 2.
+  ENUM_INACTIVE = 2; // Enum value right comment 2.
+  // Enum value trailing comment 2.
+  // Enum value trailing comment 2.
+}
+
+message Empty {}
+
+// End file.
