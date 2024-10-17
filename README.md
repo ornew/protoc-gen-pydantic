@@ -97,6 +97,35 @@ class User(_BaseModel):
 | option | description |
 |--------|-------------|
 | `preserving_proto_field_name` | Use the proto field naming for the output field name. If `false`, it will be in caml-case according to `protojson` rules. Default to `false`. |
+| `auto_trim_enum_prefix` | Automatically remove prefixes from enum fields. Default to `true` |
+
+### `auto_trim_enum_prefix`
+
+```proto
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_OK = 1;
+  STATUS_ERROR = 2;
+}
+```
+
+If `auto_trim_enum_prefix` is `false`:
+
+```python
+class Status(str, _Enum):
+    STATUS_UNSPECIFIED = "UNSPECIFIED"
+    STATUS_OK = "OK"
+    STATUS_ERROR = "ERROR"
+```
+
+If `auto_trim_enum_prefix` is `true` (default):
+
+```python
+class Status(str, _Enum):
+    UNSPECIFIED = "UNSPECIFIED"
+    OK = "OK"
+    ERROR = "ERROR"
+```
 
 ## Contributing
 

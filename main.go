@@ -33,6 +33,7 @@ func main() {
 	var flags flag.FlagSet
 	_ = flags.String("root", ".", "")
 	preservingProtoFieldName := flags.Bool("preserving_proto_field_name", false, "")
+	autoTrimEnumPrefix := flags.Bool("auto_trim_enum_prefix", true, "")
 
 	opts := protogen.Options{
 		ParamFunc: flags.Set,
@@ -49,6 +50,7 @@ func main() {
 
 		e := NewGenerator(GeneratorConfig{
 			PreservingProtoFieldName: *preservingProtoFieldName,
+			AutoTrimEnumPrefix:       *autoTrimEnumPrefix,
 		})
 
 		for _, f := range gen.Files {
@@ -216,6 +218,7 @@ type generator struct {
 
 type GeneratorConfig struct {
 	PreservingProtoFieldName bool
+	AutoTrimEnumPrefix       bool
 }
 
 func NewGenerator(c GeneratorConfig) *generator {
@@ -291,8 +294,9 @@ func (e *generator) processEnum(
 	for i := range enum.Values().Len() {
 		v := enum.Values().Get(i)
 		valueName := string(v.Name())
-		valueName = strings.TrimPrefix(valueName, prefix)
-		// TODO: Optionally, remove common prefixes if needed
+		if e.config.AutoTrimEnumPrefix {
+			valueName = strings.TrimPrefix(valueName, prefix)
+		}
 		fieldpath := append(path, 2, int32(i))
 		leadingComments, trailingComments := extractComments(sourceCodeInfo, fieldpath)
 		def.Values = append(def.Values, EnumValue{
