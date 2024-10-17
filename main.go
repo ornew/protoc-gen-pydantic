@@ -32,6 +32,7 @@ func init() {
 func main() {
 	var flags flag.FlagSet
 	_ = flags.String("root", ".", "")
+	preservingProtoFieldName := flags.Bool("preserving_proto_field_name", false, "")
 
 	opts := protogen.Options{
 		ParamFunc: flags.Set,
@@ -46,7 +47,9 @@ func main() {
 		}
 		gen.SupportedFeatures = SupportedFeatures
 
-		e := NewGenerator()
+		e := NewGenerator(GeneratorConfig{
+			PreservingProtoFieldName: *preservingProtoFieldName,
+		})
 
 		for _, f := range gen.Files {
 			if !f.Generate {
@@ -207,11 +210,18 @@ type generator struct {
 	Enums           []Enum
 	Messages        []Message
 	ExternalImports []string
+
+	config GeneratorConfig
 }
 
-func NewGenerator() *generator {
+type GeneratorConfig struct {
+	PreservingProtoFieldName bool
+}
+
+func NewGenerator(c GeneratorConfig) *generator {
 	return &generator{
 		// deps: make(map[string][]string),
+		config: c,
 	}
 }
 
@@ -343,8 +353,12 @@ func (e *generator) processMessage(
 				FieldNames: fieldNames,
 			}
 		}
+		name := field.JSONName()
+		if e.config.PreservingProtoFieldName {
+			name = string(field.Name())
+		}
 		f := Field{
-			Name:     field.JSONName(),
+			Name:     name,
 			Type:     typ,
 			Optional: field.HasOptionalKeyword(),
 			OneOf:    oneOf,

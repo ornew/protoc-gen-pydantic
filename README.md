@@ -92,6 +92,12 @@ class User(_BaseModel):
     is_active: bool = _Field(...)
 ```
 
+## Options
+
+| option | description |
+|--------|-------------|
+| `preserving_proto_field_name` | Use the proto field naming for the output field name. If `false`, it will be in caml-case according to `protojson` rules. Default to `false`. |
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request with your changes.
