@@ -98,6 +98,7 @@ class User(_BaseModel):
 |--------|-------------|
 | `preserving_proto_field_name` | Use the proto field naming for the output field name. If `false`, it will be in caml-case according to `protojson` rules. Default to `false`. |
 | `auto_trim_enum_prefix` | Automatically remove prefixes from enum fields. Default to `true` |
+| `use_integers_for_enums` | Use integers for enum values instead of enum names. Default to `false`. |
 
 ### `auto_trim_enum_prefix`
 
@@ -125,6 +126,26 @@ class Status(str, _Enum):
     UNSPECIFIED = "UNSPECIFIED"
     OK = "OK"
     ERROR = "ERROR"
+```
+
+### `use_integers_for_enums`
+
+If `use_integers_for_enums` is `false`:
+
+```python
+class Status(str, _Enum):
+    UNSPECIFIED = "UNSPECIFIED"
+    OK = "OK"
+    ERROR = "ERROR"
+```
+
+If `use_integers_for_enums` is `true`:
+
+```python
+class Status(int, _Enum):
+    UNSPECIFIED = 0
+    OK = 1
+    ERROR = 2
 ```
 
 ## Contributing

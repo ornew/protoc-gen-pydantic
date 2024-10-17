@@ -8,6 +8,9 @@ plugins:
       - .
     opt:
       - paths=source_relative
+      # - preserving_proto_field_name=true
+      # - auto_trim_enum_prefix=false
+      # - use_integers_for_enums=true
     out: test/gen
 inputs:
   - directory: test/api
