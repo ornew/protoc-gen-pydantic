@@ -96,9 +96,10 @@ class User(_BaseModel):
 
 | option | description |
 |--------|-------------|
-| `preserving_proto_field_name` | Use the proto field naming for the output field name. If `false`, it will be in caml-case according to `protojson` rules. Default to `false`. |
-| `auto_trim_enum_prefix` | Automatically remove prefixes from enum fields. Default to `true` |
-| `use_integers_for_enums` | Use integers for enum values instead of enum names. Default to `false`. |
+| `preserving_proto_field_name` | Use the proto field naming for the output field name. If `false`, it will be in caml-case according to `protojson` rules. Defaults to `false`. |
+| `auto_trim_enum_prefix` | Automatically remove prefixes from enum fields. Defaults to `true` |
+| `use_integers_for_enums` | Use integers for enum values instead of enum names. Defaults to `false`. |
+| `disable_field_description` | Disable generating the field description. Defaults to `false`. |
 
 ### `auto_trim_enum_prefix`
 
@@ -146,6 +147,31 @@ class Status(int, _Enum):
     UNSPECIFIED = 0
     OK = 1
     ERROR = 2
+```
+
+### `disable_field_description`
+
+If `disable_field_description` is `true`:
+
+```proto
+message User {
+    // User name
+    string name = 1;
+}
+```
+
+```python
+class User(_BaseModel):
+    # User name
+    name: str = _Field(..., description="User name")
+```
+
+If `disable_field_description` is `false`:
+
+```python
+class User(_BaseModel):
+    # User name
+    name: str = _Field(...)
 ```
 
 ## Contributing

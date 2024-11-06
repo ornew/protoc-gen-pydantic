@@ -35,6 +35,7 @@ func main() {
 	preservingProtoFieldName := flags.Bool("preserving_proto_field_name", false, "")
 	autoTrimEnumPrefix := flags.Bool("auto_trim_enum_prefix", true, "")
 	useIntegersForEnums := flags.Bool("use_integers_for_enums", false, "")
+	disableFieldDescription := flags.Bool("disable_field_description", false, "")
 
 	opts := protogen.Options{
 		ParamFunc: flags.Set,
@@ -53,6 +54,7 @@ func main() {
 			PreservingProtoFieldName: *preservingProtoFieldName,
 			AutoTrimEnumPrefix:       *autoTrimEnumPrefix,
 			UseIntegersForEnums:      *useIntegersForEnums,
+			DisableFieldDescription:  *disableFieldDescription,
 		})
 
 		for _, f := range gen.Files {
@@ -146,6 +148,14 @@ class {{ .Name }}(_BaseModel):
     {{- range .LeadingComments }}
     {{ . }}
     {{- end }}
+
+    Attributes:
+    {{- range .Fields }}
+      {{ .Name }} ({{ .Type }}):
+    {{- range .LeadingComments }}
+        {{ . }}
+    {{- end }}
+    {{- end }}
     """
     {{ range .TrailingComments }}
     # {{ . }}
@@ -154,7 +164,7 @@ class {{ .Name }}(_BaseModel):
     {{ range .LeadingComments }}
     # {{ . }}
     {{- end }}
-    {{ .Name }}: "{{ .Type }}" = _Field({{ if or .Optional (ne .OneOf nil) }}None{{ else }}...{{ end }}{{ if or (ne (len .LeadingComments) 0) (ne .OneOf nil) }}, description="""{{- range .LeadingComments -}}
+    {{ .Name }}: "{{ .Type }}" = _Field({{ if or .Optional (ne .OneOf nil) }}None{{ else }}...{{ end }}{{ if and (not $config.DisableFieldDescription) (or (ne (len .LeadingComments) 0) (ne .OneOf nil)) }}, description="""{{- range .LeadingComments -}}
 {{ . }}
 {{ end }}{{ if ne .OneOf nil }}
 Only one of the fields can be specified with: {{ .OneOf.FieldNames }} (oneof {{ .OneOf.Name }}){{ end }}"""{{ end }})
@@ -229,6 +239,7 @@ type GeneratorConfig struct {
 	PreservingProtoFieldName bool
 	AutoTrimEnumPrefix       bool
 	UseIntegersForEnums      bool
+	DisableFieldDescription  bool
 }
 
 func NewGenerator(c GeneratorConfig) *generator {
