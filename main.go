@@ -36,6 +36,7 @@ func main() {
 	autoTrimEnumPrefix := flags.Bool("auto_trim_enum_prefix", true, "")
 	useIntegersForEnums := flags.Bool("use_integers_for_enums", false, "")
 	disableFieldDescription := flags.Bool("disable_field_description", false, "")
+	useNoneUnionSyntaxInstaedOfOptional := flags.Bool("use_none_union_syntax_instead_of_optional", false, "")
 
 	opts := protogen.Options{
 		ParamFunc: flags.Set,
@@ -51,10 +52,11 @@ func main() {
 		gen.SupportedFeatures = SupportedFeatures
 
 		e := NewGenerator(GeneratorConfig{
-			PreservingProtoFieldName: *preservingProtoFieldName,
-			AutoTrimEnumPrefix:       *autoTrimEnumPrefix,
-			UseIntegersForEnums:      *useIntegersForEnums,
-			DisableFieldDescription:  *disableFieldDescription,
+			PreservingProtoFieldName:            *preservingProtoFieldName,
+			AutoTrimEnumPrefix:                  *autoTrimEnumPrefix,
+			UseIntegersForEnums:                 *useIntegersForEnums,
+			DisableFieldDescription:             *disableFieldDescription,
+			UseNoneUnionSyntaxInstaedOfOptional: *useNoneUnionSyntaxInstaedOfOptional,
 		})
 
 		for _, f := range gen.Files {
@@ -236,10 +238,11 @@ type generator struct {
 }
 
 type GeneratorConfig struct {
-	PreservingProtoFieldName bool
-	AutoTrimEnumPrefix       bool
-	UseIntegersForEnums      bool
-	DisableFieldDescription  bool
+	PreservingProtoFieldName            bool
+	AutoTrimEnumPrefix                  bool
+	UseIntegersForEnums                 bool
+	DisableFieldDescription             bool
+	UseNoneUnionSyntaxInstaedOfOptional bool
 }
 
 func NewGenerator(c GeneratorConfig) *generator {
@@ -492,6 +495,9 @@ func (e *generator) resolveType(referer string, field protoreflect.FieldDescript
 	}
 
 	if field.HasOptionalKeyword() || field.ContainingOneof() != nil {
+		if e.config.UseNoneUnionSyntaxInstaedOfOptional {
+			return fmt.Sprintf("%s | None", typ), nil
+		}
 		return fmt.Sprintf("_Optional[%s]", typ), nil
 	}
 

@@ -100,6 +100,7 @@ class User(_BaseModel):
 | `auto_trim_enum_prefix` | Automatically remove prefixes from enum fields. Defaults to `true` |
 | `use_integers_for_enums` | Use integers for enum values instead of enum names. Defaults to `false`. |
 | `disable_field_description` | Disable generating the field description. Defaults to `false`. |
+| `use_none_union_syntax_instead_of_optional` | Use `T | None` instead of `Optional[T]`. |
 
 ### `auto_trim_enum_prefix`
 
@@ -173,6 +174,11 @@ class User(_BaseModel):
     # User name
     name: str = _Field(...)
 ```
+
+### `use_none_union_syntax_instead_of_optional`
+
+If `use_none_union_syntax_instead_of_optional` is `true`: `Optional[T]`
+If `use_none_union_syntax_instead_of_optional` is `false`: `T | None`
 
 ## Contributing
 
